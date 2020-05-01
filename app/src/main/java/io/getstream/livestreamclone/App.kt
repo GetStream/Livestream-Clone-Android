@@ -19,7 +19,7 @@ class App : Application() {
     }
 
     companion object {
-        private const val API_KEY = "s2dxdhpxd94g"
+        private const val API_KEY = "yp9rzd2m2hrq"
     }
 
 }

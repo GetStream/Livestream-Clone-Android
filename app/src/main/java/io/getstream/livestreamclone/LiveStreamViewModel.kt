@@ -12,11 +12,9 @@ import io.getstream.chat.android.client.models.Channel
 import io.getstream.chat.android.client.models.Message
 import io.getstream.chat.android.client.models.User
 import io.getstream.chat.android.client.socket.InitConnectionListener
-import io.getstream.chat.android.client.utils.SyncStatus
 import timber.log.Timber
-import java.util.*
 
-class LivestreamViewModel : ViewModel() {
+class LiveStreamViewModel : ViewModel() {
     private val chatClient = ChatClient.instance()
     private val _viewState = MutableLiveData<State>()
     private lateinit var channelController: ChannelController
@@ -31,12 +29,10 @@ class LivestreamViewModel : ViewModel() {
             override fun onSuccess(data: ConnectionData) {
                 user = data.user
                 connectionId = data.connectionId
-                Timber.d("client.setUser success, user: $user, connectionId: $connectionId")
                 channelController = chatClient.channel(CHANNEL_TYPE, CHANNEL_ID)
                 requestChannel()
                 watchChannel()
                 subscribeToNewMessageEvent()
-                subscribeToChanelStateEvents()
             }
 
             override fun onError(error: ChatError) {
@@ -48,11 +44,6 @@ class LivestreamViewModel : ViewModel() {
     fun sendButtonClicked(message: String) {
         Message().run {
             text = message
-            id = user.id + "-" + UUID.randomUUID().toString()
-//            channel = this@LivestreamViewModel.channel
-            cid = "%s:%s".format(CHANNEL_TYPE, channel.id)
-            createdAt = Date()
-            syncStatus = SyncStatus.SYNC_NEEDED
             channelController.sendMessage(this).enqueue {
                 if (it.isSuccess) {
                     Timber.d("Received message send success")
@@ -64,16 +55,10 @@ class LivestreamViewModel : ViewModel() {
     }
 
     private fun subscribeToNewMessageEvent() {
-        chatClient.events().subscribe { it ->
+        chatClient.events().subscribe {
             if (it is NewMessageEvent) {
-                Timber.d("Received new message event")
+                _viewState.postValue(State.NewMessage(it.message))
             }
-        }
-    }
-
-    private fun subscribeToChanelStateEvents() {
-        channelController.events().filter("channel.state").subscribe {
-            Timber.d("Received channel.state event")
         }
     }
 
@@ -87,7 +72,6 @@ class LivestreamViewModel : ViewModel() {
         channelController.query(request).enqueue {
             if (it.isSuccess) {
                 channel = it.data()
-                Timber.d("Received channel response")
                 _viewState.postValue(State.Messages(it.data().messages))
             } else {
                 Timber.e(it.error())
@@ -102,14 +86,19 @@ class LivestreamViewModel : ViewModel() {
     }
 
     companion object {
-        private const val CHANNEL_TYPE = "messaging"//"livestream"
-        private const val USER_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiZW1wdHktcXVlZW4tNSJ9.RJw-XeaPnUBKbbh71rV1bYAKXp6YaPARh68O08oRnOU"
-        private const val CHANNEL_ID = "livestream-clone-cid-12345"
-        private val chatUser = User("user-id")
+        private const val CHANNEL_TYPE = "livestream"
+        private const val CHANNEL_ID = "livestream-clone-android-cid"
+        private const val USER_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiU2FtdWVsIn0.o2SkELqU7BwyP4hcxv-c6sz_kFNK6kVIzguBhwYjTsM"
+        private const val USER_ID = "user-id"
+        private val chatUser = User(id = USER_ID).apply {
+            name = "Jack"
+            image ="https://getstream.io/random_svg/?id=broken-waterfall-5&amp;name=$name"
+        }
     }
 }
 
 sealed class State {
     data class Messages(val messages: List<Message>) : State()
+    data class NewMessage(val message: Message) : State()
     data class Error(val message: String) : State()
 }

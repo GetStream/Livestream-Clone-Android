@@ -1,7 +1,6 @@
 package io.getstream.livestreamclone
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -10,16 +9,27 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class LiveStreamActivity : AppCompatActivity() {
 
+    private val adapter = MessagesListAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         loadMockVideoStream()
+        messagesList.adapter = adapter
 
-        val viewModel: LivestreamViewModel by viewModels()
+        val viewModel: LiveStreamViewModel by viewModels()
         viewModel.viewState.observe(this, Observer {
             when (it) {
-                is State.Messages -> showToast("new messages: ${it.messages.size}")
-                is State.Error -> showToast("error ${it.message}")
+                is State.Messages -> {
+                    adapter.submitList(it.messages)
+                    adapter.notifyDataSetChanged()
+                }
+                is State.NewMessage -> {
+                    val updatedMessages = adapter.currentList + it.message
+                    adapter.submitList(updatedMessages)
+                    adapter.notifyDataSetChanged()
+                }
+                is State.Error -> showToast("error: ${it.message}")
             }
         })
 
@@ -36,8 +46,4 @@ class LiveStreamActivity : AppCompatActivity() {
         const val MOCK_IMAGE_URL =
             "https://images.unsplash.com/photo-1580343217802-e02386f04239?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3634&q=80"
     }
-}
-
-fun AppCompatActivity.showToast(text: String) {
-    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }

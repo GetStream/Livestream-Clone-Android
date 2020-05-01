@@ -9,7 +9,7 @@
     android:fitsSystemWindows="true"
     tools:context=".LiveStreamActivity">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/mockLiveStreamView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,8 +21,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messagesList"
         android:layout_width="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_small"
+        app:reverseLayout="true"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.6"
+        android:overScrollMode="never"
+        app:layout_constraintHeight_percent="0.3"
         app:layout_constraintBottom_toTopOf="@+id/sendMessageButton"/>
 
     <EditText
