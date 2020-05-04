@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.squareup.picasso.Picasso
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import io.getstream.chat.android.client.models.Message
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -15,7 +17,6 @@ class LiveStreamActivity : AppCompatActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
 
         loadMockVideoStream()
-
         messagesList.adapter = adapter
 
         val viewModel: LiveStreamViewModel by viewModels()
@@ -38,12 +39,19 @@ class LiveStreamActivity : AppCompatActivity(R.layout.activity_main) {
     private fun updateMessagesList(messages: List<Message>) {
         adapter.submitList(messages)
         adapter.notifyDataSetChanged()
+        messagesList.smoothScrollToPosition(adapter.itemCount)
     }
 
-    private fun loadMockVideoStream() = Picasso.get().load(MOCK_IMAGE_URL).into(mockLiveStreamView)
-
-    companion object {
-        const val MOCK_IMAGE_URL =
-            "https://images.unsplash.com/photo-1580343217802-e02386f04239?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3634&q=80"
+    private fun loadMockVideoStream() {
+        val playerListener = object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                val videoId = "DjTZ3UarzfU"
+                youTubePlayer.run {
+                    loadVideo(videoId, 0f)
+                }
+            }
+        }
+        val playerOptions = IFramePlayerOptions.Builder().controls(0).rel(0).build()
+        mockLiveStreamView.initialize(playerListener, false, playerOptions)
     }
 }

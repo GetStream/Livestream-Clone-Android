@@ -9,34 +9,45 @@
     android:fitsSystemWindows="true"
     tools:context=".LiveStreamActivity">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:id="@+id/mockLiveStreamView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="false"
+        app:enableAutomaticInitialization="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Translucent gradient overlay background to make chat more visible -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_chat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/messagesList" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messagesList"
         android:layout_width="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="vertical"
-        android:padding="@dimen/margin_small"
-        app:reverseLayout="true"
         android:layout_height="0dp"
+        android:orientation="vertical"
         android:overScrollMode="never"
-        app:layout_constraintHeight_percent="0.4"
-        app:layout_constraintBottom_toTopOf="@+id/sendMessageButton"/>
+        android:paddingLeft="@dimen/margin_small"
+        android:paddingRight="@dimen/margin_small"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/sendMessageButton"
+        app:layout_constraintHeight_percent="0.35"
+        app:reverseLayout="true" />
 
     <EditText
         android:id="@+id/messageInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_enter_your_message"
         android:layout_marginLeft="@dimen/margin_medium"
         android:layout_marginRight="@dimen/margin_medium"
+        android:hint="@string/hint_enter_your_message"
         app:layout_constraintBottom_toBottomOf="@+id/sendMessageButton"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/sendMessageButton" />
