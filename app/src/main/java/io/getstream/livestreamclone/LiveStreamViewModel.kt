@@ -86,10 +86,10 @@ class LiveStreamViewModel : ViewModel() {
     }
 
     companion object {
+        private const val USER_ID = "user-id"
         private const val CHANNEL_TYPE = "livestream"
         private const val CHANNEL_ID = "livestream-clone-android-cid"
-        private const val USER_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiU2FtdWVsIn0.o2SkELqU7BwyP4hcxv-c6sz_kFNK6kVIzguBhwYjTsM"
-        private const val USER_ID = "user-id"
+        private const val USER_TOKEN = BuildConfig.USER_TOKEN
         private val chatUser = User(id = USER_ID).apply {
             name = "Jack"
             image ="https://getstream.io/random_svg/?id=broken-waterfall-5&amp;name=$name"

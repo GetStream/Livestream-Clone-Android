@@ -2,6 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+ext {
+    secrets = [
+            streamApiKey : keyProperty("STREAM_API_KEY"),
+            userToken : keyProperty("USER_TOKEN")
+    ]
+}
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -17,6 +24,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField 'String', 'STREAM_API_KEY', "\"${secrets.streamApiKey}\""
+            buildConfigField 'String', 'USER_TOKEN', "\"${secrets.userToken}\""
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

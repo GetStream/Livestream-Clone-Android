@@ -7,7 +7,6 @@ import timber.log.Timber.DebugTree
 
 
 class App : Application() {
-
     override fun onCreate() {
         super.onCreate()
 
@@ -15,11 +14,6 @@ class App : Application() {
             Timber.plant(DebugTree())
         }
 
-        ChatClient.Builder(API_KEY, this).build()
+        ChatClient.Builder(BuildConfig.STREAM_API_KEY, this).build()
     }
-
-    companion object {
-        private const val API_KEY = "yp9rzd2m2hrq"
-    }
-
 }
