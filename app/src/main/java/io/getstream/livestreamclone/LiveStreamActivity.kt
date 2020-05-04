@@ -5,31 +5,25 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.squareup.picasso.Picasso
+import io.getstream.chat.android.client.models.Message
 import kotlinx.android.synthetic.main.activity_main.*
 
-class LiveStreamActivity : AppCompatActivity() {
-
+class LiveStreamActivity : AppCompatActivity(R.layout.activity_main) {
     private val adapter = MessagesListAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
         loadMockVideoStream()
+
         messagesList.adapter = adapter
 
         val viewModel: LiveStreamViewModel by viewModels()
         viewModel.viewState.observe(this, Observer {
             when (it) {
-                is State.Messages -> {
-                    adapter.submitList(it.messages)
-                    adapter.notifyDataSetChanged()
-                }
-                is State.NewMessage -> {
-                    val updatedMessages = adapter.currentList + it.message
-                    adapter.submitList(updatedMessages)
-                    adapter.notifyDataSetChanged()
-                }
-                is State.Error -> showToast("error: ${it.message}")
+                is State.Messages -> updateMessagesList(it.messages)
+                is State.NewMessage -> updateMessagesList(adapter.currentList + it.message)
+                is State.Error -> showToast("Message loading error: ${it.message}")
             }
         })
 
@@ -37,7 +31,13 @@ class LiveStreamActivity : AppCompatActivity() {
             viewModel.sendButtonClicked(messageInput.text.toString())
             messageInput.setText("")
             messageInput.clearFocus()
+            messageInput.hideKeyboard()
         }
+    }
+
+    private fun updateMessagesList(messages: List<Message>) {
+        adapter.submitList(messages)
+        adapter.notifyDataSetChanged()
     }
 
     private fun loadMockVideoStream() = Picasso.get().load(MOCK_IMAGE_URL).into(mockLiveStreamView)

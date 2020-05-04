@@ -27,7 +27,7 @@
         app:reverseLayout="true"
         android:layout_height="0dp"
         android:overScrollMode="never"
-        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintHeight_percent="0.4"
         app:layout_constraintBottom_toTopOf="@+id/sendMessageButton"/>
 
     <EditText
