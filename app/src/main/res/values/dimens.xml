@@ -4,4 +4,5 @@
     <dimen name="margin_medium">24dp</dimen>
     <dimen name="margin_large">36dp</dimen>
     <dimen name="avatar_size">38dp</dimen>
+    <dimen name="margin_x_small">8dp</dimen>
 </resources>
