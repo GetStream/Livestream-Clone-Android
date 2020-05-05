@@ -32,6 +32,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'STREAM_API_KEY', "\"${secrets.streamApiKey}\""
+            buildConfigField 'String', 'USER_TOKEN', "\"${secrets.userToken}\""
         }
     }
 
@@ -55,7 +57,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation "com.google.android.material:material:1.1.0"
 
-    implementation 'com.github.getstream:stream-chat-android-client:1.4.0'
+    implementation 'com.github.getstream:stream-chat-android-client:1.4.1'
 
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.3'
 

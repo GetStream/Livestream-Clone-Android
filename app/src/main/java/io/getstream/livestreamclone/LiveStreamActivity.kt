@@ -59,10 +59,7 @@ class LiveStreamActivity : AppCompatActivity(R.layout.activity_main) {
     private fun loadMockVideoStream() {
         val playerListener = object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                val youtubeVideoId = "XYqrrpvTtU8"
-                youTubePlayer.run {
-                    loadVideo(youtubeVideoId, 0f)
-                }
+                youTubePlayer.loadVideo(videoId = "XYqrrpvTtU8", startSeconds = 0f)
             }
         }
         val playerOptions = IFramePlayerOptions.Builder().controls(0).rel(0).build()

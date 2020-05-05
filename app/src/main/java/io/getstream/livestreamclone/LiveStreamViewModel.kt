@@ -76,13 +76,14 @@ class LiveStreamViewModel() : ViewModel() {
     }
 
     companion object {
-        private const val USER_ID = "user-id-bob"
+        private const val USER_ID = "bob"
         private const val CHANNEL_TYPE = "livestream"
-        private const val CHANNEL_ID = "livestream-clone-android-cid"
+        private const val CHANNEL_ID = "livestream-clone-android" // You'll want to make it unique per video
         private const val USER_TOKEN = BuildConfig.USER_TOKEN
+
         private val chatUser = User(id = USER_ID).apply {
-            name = "bob"
-            image = getDummyAvatar(name)
+            name = USER_ID
+            image = getDummyAvatar(USER_ID)
         }
 
         private fun getDummyAvatar(id: String) = "https://api.adorable.io/avatars/285/$id.png"
