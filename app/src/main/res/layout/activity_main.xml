@@ -32,15 +32,14 @@
         android:id="@+id/messagesList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_x_small"
         android:orientation="vertical"
         android:overScrollMode="never"
         android:paddingLeft="@dimen/margin_small"
         android:paddingRight="@dimen/margin_small"
-        android:layout_marginBottom="@dimen/margin_x_small"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/sendMessageButton"
-        app:layout_constraintHeight_percent="0.35"
-        app:reverseLayout="true" />
+        app:layout_constraintHeight_percent="0.35" />
 
     <EditText
         android:id="@+id/messageInput"

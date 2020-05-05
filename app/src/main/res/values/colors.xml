@@ -5,6 +5,6 @@
     <color name="colorAccent">#BF03A9F4</color>
     <color name="background_color">#000</color>
     <color name="full_transparent">#00000000</color>
-    <color name="semi_transparent_black">#aa000000</color>
+    <color name="semi_transparent_black">#dd000000</color>
     <color name="black">#000</color>
 </resources>
