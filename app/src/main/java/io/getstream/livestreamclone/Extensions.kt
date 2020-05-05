@@ -48,6 +48,6 @@ fun AppCompatActivity.showToast(text: String) {
 
 fun EditText.hideKeyboard() {
     val imm: InputMethodManager =
-        this.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(this.windowToken, 0)
 }
