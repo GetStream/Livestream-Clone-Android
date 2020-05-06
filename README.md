@@ -14,4 +14,4 @@ UserToken=xxx
 3. `./gradlew build`
 
 ## Result
-![Livestream demo app - Animated gif](demo/demo.gif)
+[<img src="demo/demo.png" width="300"/>](https://youtu.be/_Aec_6UjtOI)
