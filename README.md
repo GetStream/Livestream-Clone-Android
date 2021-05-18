@@ -1,3 +1,6 @@
+# Important
+**This repository is now archived. You can find this sample and more in the [Android Samples repository](https://github.com/GetStream/Android-Samples) instead.**
+
 # Build a Livestream Video & Chat App for Android
 
 This repository is part of a tutorial on how to build a livestream video and chat application for Android (with Kotlin), originally published on [The Stream Blog](https://getstream.io/blog/livestream-video-and-chat-app-android/).
